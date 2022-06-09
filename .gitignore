@@ -49,5 +49,8 @@ cover/*
 MANIFEST
 
 # Per-project virtualenvs
+venv
 .venv*/
 .conda*/
+.env
+src/telegram_forward/TEST.*
