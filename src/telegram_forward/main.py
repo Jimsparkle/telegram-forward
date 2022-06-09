@@ -34,7 +34,6 @@ async def my_handler(client, message):
         await message.forward(COPY_CHAT)
     return
 
-app.add_handler(MessageHandler(my_handler), -1)
 
 async def main():
     await app.start()
