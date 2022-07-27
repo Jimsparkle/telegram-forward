@@ -54,3 +54,4 @@ venv
 .conda*/
 .env
 src/telegram_forward/TEST.*
+src/telegram_forward/my_account.session

@@ -15,6 +15,7 @@ PHONE_NUM = config('PHONE_NUM')
 
 # CHAT ID
 SOURCE_CHAT = -1001244925080
+SOURCE_CHANNEL = -1001446754046
 COPY_CHAT = -1001763802535
 
 app = Client(
@@ -25,23 +26,36 @@ app = Client(
 )
 
 
+# FROM THE GROUP CHAT
 @app.on_message(filters.chat(SOURCE_CHAT))
 async def my_handler(client, message):
     # maybe the message is not initiated by user
     if not message.from_user:
         return
-    elif "天天天" in message.from_user.first_name:
-        await message.forward(COPY_CHAT)
+    elif "天天天" in message.from_user.first_name:  # 
+        # is he replying any message?
+        original_message = message.reply_to_message
+        if original_message:
+            await original_message.forward(COPY_CHAT)
+            await app.send_message(COPY_CHAT, "↑↑↑↑↑↑ MEMBER COPIED ↑↑↑↑↑↑ | ↓↓↓↓↓ CHING BA REPLY ↓↓↓↓↓")
+            await message.forward(COPY_CHAT)
+        else:
+            await message.forward(COPY_CHAT)
+    return
+
+
+# FROM HIS CHANNEL
+@app.on_message(filters.chat(SOURCE_CHANNEL))
+async def my_handler(client, message):
+    await message.forward(COPY_CHAT)
     return
 
 
 async def main():
     await app.start()
-    await app.send_message(COPY_CHAT, "Ching Ba Monitor is now online!")
 
     await idle()
 
-    await app.send_message(COPY_CHAT, "Ching Ba Monitor is now offline for maintanence!")
     await app.stop()
 
 
